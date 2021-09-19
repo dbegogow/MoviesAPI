@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using MoviesAPI.Services;
 
 namespace MoviesAPI.Controllers
 {
@@ -10,16 +11,29 @@ namespace MoviesAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private static readonly string[] Summaries =
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            "Freezing",
+            "Bracing",
+            "Chilly",
+            "Cool",
+            "Mild",
+            "Warm",
+            "Balmy",
+            "Hot",
+            "Sweltering",
+            "Scorching"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IRepository _repository;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(
+            ILogger<WeatherForecastController> logger,
+            IRepository repository)
         {
-            _logger = logger;
+            this._logger = logger;
+            this._repository = repository;
         }
 
         [HttpGet]

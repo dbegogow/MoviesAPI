@@ -1,9 +1,9 @@
-using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MoviesAPI.Services;
 
 namespace MoviesAPI
 {
@@ -18,6 +18,8 @@ namespace MoviesAPI
         {
 
             services.AddControllers();
+
+            services.AddSingleton<IRepository, InMemoryRepository>();
 
             services.AddSwaggerGen(c =>
                 c.SwaggerDoc("v1", new() { Title = "MoviesAPI", Version = "v1" }));
