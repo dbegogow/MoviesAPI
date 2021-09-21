@@ -49,7 +49,8 @@ namespace MoviesAPI
                     builder
                         .WithOrigins(frontendUrl)
                         .AllowAnyMethod()
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .WithExposedHeaders("totalAmountOfRecords");
                 });
             });
         }
