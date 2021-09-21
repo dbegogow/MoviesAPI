@@ -1,4 +1,5 @@
 using MoviesAPI.Filters;
+using MoviesAPI.APIBehavior;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,9 @@ namespace MoviesAPI
                 .AddControllers(options =>
                 {
                     options.Filters.Add(typeof(MyExceptionFilter));
-                });
+                    options.Filters.Add(typeof(ParseBadRequest));
+                })
+                .ConfigureApiBehaviorOptions(BadRequestBehavior.Parse);
 
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
