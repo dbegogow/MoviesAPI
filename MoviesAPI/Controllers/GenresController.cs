@@ -40,6 +40,7 @@ namespace MoviesAPI.Controllers
 
             var genres = await queryable
                 .OrderBy(x => x.Name)
+                .Paginate(paginationDto)
                 .ToListAsync();
 
             return this._mapper.Map<List<GenreDto>>(genres);
