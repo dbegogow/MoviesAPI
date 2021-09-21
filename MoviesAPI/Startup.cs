@@ -23,6 +23,8 @@ namespace MoviesAPI
                 .AddDbContext<MoviesDbContext>(options => options
                     .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAutoMapper(typeof(Startup));
+
             services
                 .AddControllers(options =>
                 {
