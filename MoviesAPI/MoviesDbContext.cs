@@ -13,5 +13,7 @@ namespace MoviesAPI
         }
 
         public DbSet<Genre> Genres { get; init; }
+
+        public DbSet<Actor> Actors { get; init; }
     }
 }
