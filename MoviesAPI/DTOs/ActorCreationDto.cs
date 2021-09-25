@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAPI.DTOs
@@ -12,5 +13,7 @@ namespace MoviesAPI.DTOs
         public DateTime DateOfBirth { get; set; }
 
         public string Biography { get; set; }
+
+        public IFormFile Picture { get; set; }
     }
 }

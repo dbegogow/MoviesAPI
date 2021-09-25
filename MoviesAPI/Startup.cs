@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MoviesAPI.Helpers;
 
 namespace MoviesAPI
 {
@@ -24,6 +25,8 @@ namespace MoviesAPI
                     .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IFileStorageService, InAppStorageService>();
+            services.AddHttpContextAccessor();
 
             services
                 .AddControllers(options =>
@@ -68,6 +71,7 @@ namespace MoviesAPI
 
             app
                 .UseHttpsRedirection()
+                .UseStaticFiles()
                 .UseRouting()
                 .UseCors()
                 .UseAuthorization()

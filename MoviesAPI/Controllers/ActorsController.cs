@@ -5,6 +5,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesAPI.DTOs;
+using MoviesAPI.Entities;
+using MoviesAPI.Helpers;
 
 namespace MoviesAPI.Controllers
 {
@@ -12,15 +14,20 @@ namespace MoviesAPI.Controllers
     [ApiController]
     public class ActorsController : ControllerBase
     {
+        private const string ContainerName = "actors";
+
         private readonly MoviesDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IFileStorageService _fileStorageService;
 
         public ActorsController(
             MoviesDbContext context,
-            IMapper mapper)
+            IMapper mapper,
+            IFileStorageService fileStorageService)
         {
             this._context = context;
             this._mapper = mapper;
+            this._fileStorageService = fileStorageService;
         }
 
         [HttpGet]
@@ -49,9 +56,19 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ActorCreationDto actorCreationDto)
+        public async Task<ActionResult> Post([FromForm] ActorCreationDto actorCreationDto)
         {
-            throw new NotImplementedException();
+            var actor = this._mapper.Map<Actor>(actorCreationDto);
+
+            if (actorCreationDto.Picture != null)
+            {
+                actor.Picture = await this._fileStorageService.SaveFile(ContainerName, actorCreationDto.Picture);
+            }
+
+            this._context.Add(actor);
+            await this._context.SaveChangesAsync();
+
+            return NoContent();
         }
 
         [HttpPut]
